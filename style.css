@@ -1,13 +1,13 @@
 /* 定义CSS变量，方便统一管理颜色和字体 */
 :root {
-    --primary-color: #3498db; /* 主要颜色，可自定义 */
-    --text-color: #ffffff; /* 文本颜色改为白色，适合深色背景图 */
-    --tagline-color: #ffffff; /* 标语颜色，适合深色背景图 */
+    --primary-color: #3498db; /* 主要强调色 */
+    --text-color: #ffffff;    /* 默认文本颜色，适合深色背景 */
+    --tagline-color: #ffffff; /* 标语颜色 */
     --button-bg-color: rgba(255, 255, 255, 0.9); /* 按钮背景色，略带透明 */
     --button-text-color: #333; /* 按钮文字颜色 */
     --button-hover-bg-color: var(--primary-color); /* 按钮悬停背景色 */
     --button-hover-text-color: #ffffff; /* 按钮悬停文字颜色 */
-    --shadow-color: rgba(0, 0, 0, 0.2); /* 阴影颜色 */
+    --shadow-color: rgba(0, 0, 0, 0.25); /* 通用阴影颜色 */
 }
 
 /* 全局样式和全屏背景设置 */
@@ -16,41 +16,60 @@ html, body {
     padding: 0;
     width: 100%;
     height: 100%; /* 确保html和body都占满整个视口 */
-    overflow: hidden; /* 防止滚动条出现，如果内容超出则隐藏 */
-    /* background-color 作为备用，当图片未加载或加载失败时显示 */
-    background-color: #2c3e50;
-    /* 你的背景图片 */
+    overflow: hidden; /* 防止滚动条出现 */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    box-sizing: border-box;
+}
+
+body {
+    /* 背景设置 */
+    background-color: #2c3e50; /* 备用背景色 */
     background-image: url('assets/images/background-image.webp');
     background-size: cover; /* **关键：使背景图片覆盖整个视口** */
     background-position: center; /* 背景图片居中 */
     background-repeat: no-repeat; /* 背景图片不重复 */
-    background-attachment: fixed; /* **关键：背景图片固定，不随内容滚动** */
-    color: var(--text-color); /* 默认文本颜色改为白色，适应深色背景 */
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    line-height: 1.6;
-    box-sizing: border-box;
-    display: flex; /* 使用 Flexbox 布局 */
-    justify-content: center; /* 水平居中内容 */
-    align-items: center; /* 垂直居中内容 */
-    flex-direction: column; /* 让内容垂直排列 */
-    text-align: center; /* 内容文本居中 */
+    background-attachment: fixed; /* 背景图片固定，不随内容滚动 */
+
+    /* Flexbox 布局：让 .main-content 居中 */
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center;     /* 垂直居中 */
+    flex-direction: column;  /* 内部元素垂直排列 */
+    text-align: center;      /* 文本居中 */
+    color: var(--text-color); /* 默认文本颜色 */
+
+    /* 增加一个半透明的蒙版，让文字在图片上更清晰，类似Butterfly主题效果 */
+    position: relative;
 }
 
-/* 主内容区，用于包裹头像、标语和按钮 */
+/* 在body上创建一个伪元素作为图片蒙版 */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3); /* 黑色半透明蒙版，调整透明度 */
+    z-index: -1; /* 确保蒙版在内容下方 */
+}
+
+
+/* 主内容区域，包裹头像、标语、按钮 */
 .main-content {
     display: flex;
-    flex-direction: column; /* 垂直排列头像、标语和按钮 */
-    align-items: center; /* 元素在水平方向居中 */
-    justify-content: center; /* 元素在垂直方向居中 */
+    flex-direction: column; /* 内部元素垂直堆叠 */
+    align-items: center;    /* 内部元素水平居中 */
     padding: 20px;
     box-sizing: border-box;
+    max-width: 800px; /* 限制内容区域最大宽度 */
+    width: 100%;      /* 确保在小屏幕上占据可用宽度 */
+
     /* 页面加载动画 */
-    animation: fadeInSlideUp 1s ease-out forwards;
     opacity: 0; /* 初始隐藏 */
     transform: translateY(20px); /* 初始位置略低 */
-    /* 添加最大宽度，防止在超宽屏幕上内容过分散 */
-    max-width: 800px;
-    width: 100%; /* 确保它在小屏幕上也能占据可用宽度 */
+    animation: fadeInSlideUp 1s ease-out forwards;
 }
 
 /* 页面加载动画 */
@@ -61,90 +80,92 @@ html, body {
     }
 }
 
+/* 头像样式 */
 .profile-picture {
-    width: 180px; /* 头像尺寸 */
+    width: 180px;
     height: 180px;
-    border-radius: 50%; /* 圆形头像 */
-    object-fit: cover; /* 确保图片不变形填充 */
-    border: 6px solid var(--primary-color); /* 头像边框 */
-    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.3), 0 4px 20px var(--shadow-color); /* 多重阴影效果，强调头像 */
-    margin-bottom: 25px; /* 头像与标语的间距 */
-    transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out; /* 悬停动画 */
+    border-radius: 50%; /* 圆形 */
+    object-fit: cover; /* 裁剪适应 */
+    border: 6px solid var(--primary-color);
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.3), 0 4px 20px var(--shadow-color);
+    margin-bottom: 25px;
+    transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
 }
 
 .profile-picture:hover {
-    transform: scale(1.1); /* 鼠标悬停时放大 */
-    box-shadow: 0 0 0 12px rgba(255, 255, 255, 0.4), 0 8px 30px rgba(0, 0, 0, 0.3); /* 悬停时边框和阴影变化 */
+    transform: scale(1.1);
+    box-shadow: 0 0 0 12px rgba(255, 255, 255, 0.4), 0 8px 30px rgba(0, 0, 0, 0.3);
 }
 
+/* 标语样式 */
 .tagline {
-    font-size: 2.5em; /* 更大的标语字体 */
-    color: var(--tagline-color); /* 标语颜色 */
-    margin-bottom: 30px; /* 标语与按钮的间距 */
+    font-size: 2.5em;
+    color: var(--tagline-color);
+    margin-bottom: 30px;
     font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* 强烈文字阴影，确保在背景图上清晰可见 */
-    max-width: 90%; /* 限制标语宽度 */
-    line-height: 1.2; /* 调整行高，避免文字过密 */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    max-width: 90%;
+    line-height: 1.2;
 }
 
-.bio {
-    font-size: 1.2em;
-    color: var(--text-color);
-    margin: 0 auto 30px auto; /* 底部间距 */
-    max-width: 700px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* 文字阴影 */
-}
-
+/* 社交按钮容器 */
 .social-buttons {
     display: flex;
-    flex-wrap: wrap; /* 按钮在小屏幕上会换行 */
+    flex-wrap: wrap;     /* **允许按钮换行** */
     justify-content: center; /* **关键：按钮组内部水平居中** */
-    gap: 20px; /* 按钮之间的间距 */
-    margin-top: 20px; /* 如果有bio则不用此margin-top */
-    width: 100%; /* **关键：确保按钮容器宽度占据可用空间** */
-    max-width: 600px; /* 限制按钮组的最大宽度 */
+    gap: 20px;           /* 按钮之间的间距 */
+    width: 100%;         /* 占据父容器所有宽度 */
+    max-width: 600px;    /* 限制按钮组最大宽度 */
+    padding: 0 10px;     /* 左右内边距，避免紧贴屏幕边缘 */
+    box-sizing: border-box;
 }
 
+/* 单个社交按钮样式 */
 .social-button {
     display: flex;
     align-items: center;
-    gap: 10px; /* 图标和文字的间距 */
+    gap: 10px;
     background-color: var(--button-bg-color);
-    padding: 15px 30px; /* 按钮内边距 */
-    border-radius: 30px; /* 圆角按钮 */
-    text-decoration: none; /* 移除下划线 */
+    padding: 15px 30px;
+    border-radius: 30px;
+    text-decoration: none;
     color: var(--button-text-color);
     font-weight: 600;
-    transition: all 0.3s ease; /* 鼠标悬停动画 */
-    box-shadow: 0 5px 15px var(--shadow-color); /* 按钮阴影 */
-    min-width: 150px; /* 确保按钮最小宽度 */
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px var(--shadow-color);
     justify-content: center; /* **关键：按钮内部内容居中** */
     backdrop-filter: blur(5px); /* 毛玻璃效果 */
     -webkit-backdrop-filter: blur(5px); /* Safari 兼容性 */
-    flex-grow: 1; /* **关键：让按钮在 Flex 容器中均匀增长，填充空间** */
-    max-width: calc(50% - 10px); /* **关键：在大屏幕上，每行最多显示两个按钮（减去一半的gap）** */
+
+    /* **关键：控制按钮在不同屏幕下的宽度** */
+    /* 默认情况下，让按钮宽度约为 200px，并允许其增长或收缩 */
+    flex-grow: 1; /* 允许按钮在行内增长以填充空间 */
+    flex-shrink: 1; /* 允许按钮在空间不足时收缩 */
+    flex-basis: 200px; /* 初始基础宽度，允许换行 */
+    max-width: 250px; /* 限制单个按钮的最大宽度，防止过宽 */
 }
 
 .social-button:hover {
     background-color: var(--button-hover-bg-color);
     color: var(--button-hover-text-color);
-    transform: translateY(-7px) scale(1.02); /* 鼠标悬停时上浮并轻微放大 */
+    transform: translateY(-7px) scale(1.02);
     box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
-    border-color: transparent; /* 悬停时移除边框 */
 }
 
 .social-button:hover .button-icon {
-    filter: brightness(0) invert(1); /* 鼠标悬停时图标变为白色 */
+    filter: brightness(0) invert(1);
 }
 
 .button-icon {
-    width: 32px; /* 按钮图标尺寸 */
+    width: 32px;
     height: 32px;
     object-fit: contain;
     transition: filter 0.3s ease;
 }
 
-/* 媒体查询：针对小屏幕设备进行优化 */
+/* --- 媒体查询：响应式布局优化 --- */
+
+/* 平板和较大手机 (宽度小于 768px) */
 @media (max-width: 768px) {
     .profile-picture {
         width: 150px;
@@ -156,15 +177,16 @@ html, body {
     }
 
     .social-buttons {
-        gap: 15px; /* 减小间距 */
+        gap: 15px; /* 减小按钮间距 */
         max-width: 90%; /* 限制按钮组在平板上的宽度 */
+        padding: 0 5px; /* 调整内边距 */
     }
 
     .social-button {
         padding: 12px 25px;
-        min-width: 120px;
-        font-size: 0.95em;
-        max-width: calc(50% - 7.5px); /* 适应新的 gap */
+        min-width: 140px; /* 手机和平板上按钮的最小宽度 */
+        flex-basis: calc(50% - 7.5px); /* 在这些屏幕上尝试两列布局 */
+        max-width: calc(50% - 7.5px); /* 限制单按钮最大宽度，确保两列 */
     }
 
     .button-icon {
@@ -173,11 +195,12 @@ html, body {
     }
 }
 
+/* 手机 (宽度小于 480px) */
 @media (max-width: 480px) {
     .profile-picture {
         width: 120px;
         height: 120px;
-        border-width: 4px; /* 缩小边框 */
+        border-width: 4px;
     }
 
     .tagline {
@@ -186,16 +209,18 @@ html, body {
     }
 
     .social-buttons {
-        flex-direction: column; /* **关键：按钮垂直堆叠** */
-        align-items: center; /* **关键：确保按钮容器在水平方向居中** */
-        gap: 10px;
-        width: 90%; /* **关键：限制按钮组宽度，并让其通过 main-content 居中** */
-        margin: 0 auto; /* 这一行现在可能不那么关键，因为 main-content 和 social-buttons 都在做居中 */
+        gap: 10px; /* 进一步减小间距 */
+        width: 95%; /* 按钮组占据 95% 宽度 */
+        max-width: 300px; /* **限制整个按钮列的最大宽度，使其居中** */
+        padding: 0; /* 移除按钮组的内边距 */
     }
 
     .social-button {
-        width: 100%; /* **关键：按钮宽度占满父容器 (social-buttons 的 90%)** */
-        max-width: 300px; /* **限制单个按钮的最大宽度，防止过宽** */
+        /* 在手机上，让按钮均匀分布，但有最大宽度限制 */
+        flex-basis: 120px; /* **调整：设置一个较小的基础宽度，允许在一行放更多** */
+        max-width: 45%; /* **关键：限制单个按钮最大宽度，确保每行至少两个** */
+        min-width: 120px; /* 确保在极端小屏幕上不会太小 */
+        padding: 10px 15px;
     }
     .button-icon {
         width: 24px;
