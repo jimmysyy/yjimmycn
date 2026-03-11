@@ -5,8 +5,8 @@
 const linksData = [
     { title: "我的微博", icon: "fa-brands fa-weibo", url: "https://weibo.com/u/5958139071" },
     { title: "资源收藏合集", icon: "fa-solid fa-book", url: "https://s.yjimmy.cn" },
-    { title: "影视", icon: "fa-solid fa-film", url: "#" },
-    { title: "软件", icon: "fa-solid fa-download", url: "#" },
+    { title: "每日更新资源", icon: "fa-solid fa-film", url: "https://bcnpzlg6nhng.feishu.cn/docx/VfU1d1kzBotTCDxP0jccsqtDncb?from=from_copylink" },
+    // { title: "软件", icon: "fa-solid fa-download", url: "#" },
     { title: "我的邮箱", icon: "fa-solid fa-envelope", url: "mailto:2936653629@qq.com" },
     { title: "QQ群", icon: "fa-brands fa-qq", url: "https://qm.qq.com/q/8SNlVrgKju" },
     // 你可以无限往下复制添加，布局会自动适应

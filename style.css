@@ -31,7 +31,7 @@ body {
 .background-layer {
     position: fixed;
     top: -20px; left: -20px; right: -20px; bottom: -20px; /* 略微放大防止模糊边缘漏白 */
-    background-image: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e'); /* 这里替换成你的油菜花背景图 */
+    background-image: url('assets/background.jpg'); /* 这里替换成你的油菜花背景图 */
     background-size: cover;
     background-position: center;
     z-index: -1;
