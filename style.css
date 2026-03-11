@@ -1,0 +1,151 @@
+/* 定义苹果风的全局色彩与变量 */
+:root {
+    --text-primary: #1d1d1f;
+    --text-light: #ffffff;
+    --glass-bg: rgba(255, 255, 255, 0.65); /* 半透明白色背景 */
+    --glass-border: rgba(255, 255, 255, 0.5); /* 边缘高光 */
+    --shadow-default: 0 4px 24px rgba(0, 0, 0, 0.06);
+    --shadow-hover: 0 10px 32px rgba(0, 0, 0, 0.12);
+    --blur-intensity: blur(20px);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent; /* 消除移动端点击的高亮背景 */
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: var(--text-primary);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* 独立背景层，方便调节背景图和整体磨砂度 */
+.background-layer {
+    position: fixed;
+    top: -20px; left: -20px; right: -20px; bottom: -20px; /* 略微放大防止模糊边缘漏白 */
+    background-image: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e'); /* 这里替换成你的油菜花背景图 */
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    filter: blur(4px); /* 背景轻微模糊，凸显前景 */
+}
+
+.main-container {
+    width: 100%;
+    max-width: 600px;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+}
+
+/* --- 个人信息区 --- */
+.profile-section {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.avatar:hover {
+    transform: scale(1.05);
+}
+
+.name {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 16px;
+    color: var(--text-light);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.5px;
+}
+
+.bio {
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.9);
+    margin-top: 8px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* --- 按钮布局区 --- */
+.links-section {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 默认两列 */
+    gap: 16px;
+}
+
+/* 神奇的 CSS：当按钮数量为奇数时，最后一个按钮自动跨满整行并居中，还原你原本的设计 */
+.links-section a:nth-child(odd):last-child {
+    grid-column: 1 / -1;
+    max-width: 50%; /* 限制宽度，让它看起来更精致，如果想全宽可以删掉这行 */
+    margin: 0 auto;
+}
+
+/* --- 毛玻璃苹果风按钮 --- */
+.apple-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 20px;
+    text-decoration: none;
+    color: var(--text-primary);
+    background: var(--glass-bg);
+    
+    /* 核心毛玻璃代码 */
+    backdrop-filter: var(--blur-intensity);
+    -webkit-backdrop-filter: var(--blur-intensity);
+    
+    border: 1px solid var(--glass-border);
+    border-radius: 24px; /* 苹果风格大圆角 */
+    font-size: 15px;
+    font-weight: 500;
+    box-shadow: var(--shadow-default);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    gap: 12px;
+}
+
+.apple-btn i {
+    font-size: 18px;
+    width: 20px; /* 统一图标宽度，让文字对齐更整齐 */
+    text-align: center;
+}
+
+.apple-btn:hover {
+    background: rgba(255, 255, 255, 0.85);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.apple-btn:active {
+    transform: translateY(1px) scale(0.98); /* 类似 iOS 按压的阻尼感缩放 */
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* --- 响应式设计 --- */
+@media (max-width: 500px) {
+    .links-section {
+        grid-template-columns: 1fr; /* 手机屏幕小，变为单列 */
+    }
+    .links-section a:nth-child(odd):last-child {
+        max-width: 100%; /* 手机上如果是单数最后一个也填满全宽 */
+    }
+}
